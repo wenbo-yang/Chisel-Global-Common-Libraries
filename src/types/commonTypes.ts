@@ -9,7 +9,7 @@ export interface IServicePorts {
     https: number;
 }
 
-export enum DATATYPE {
+export enum IMAGEDATATYPE {
     BINARYSTRINGWITHNEWLINE = 'BINARYSTRINGWITHNEWLINE',
     PNG = 'PNG',
     PNGIMAGEPATH = 'PNGIMAGEPATH',
