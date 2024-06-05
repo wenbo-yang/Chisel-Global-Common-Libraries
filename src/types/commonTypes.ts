@@ -1,4 +1,13 @@
 
+export interface IServiceConfig {
+    serviceName: string;
+    shortName: string;
+}
+
+export interface IServicePorts {
+    http: number;
+    https: number;
+}
 
 export enum DATATYPE {
     BINARYSTRINGWITHNEWLINE = 'BINARYSTRINGWITHNEWLINE',
