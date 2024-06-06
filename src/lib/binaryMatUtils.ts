@@ -1,6 +1,6 @@
 import { decode } from 'bmp-js';
 import { CompressedBinaryImage } from '../types/commonTypes';
-import { gzip } from 'node-gzip';
+import { gzip, ungzip } from 'node-gzip';
 
 export async function convertBitmapDataToZeroOneMat(bitMapBuffer: Buffer, grayScaleWhiteThreshold: number): Promise<number[][]> {
     const bmpData = decode(bitMapBuffer);
@@ -58,3 +58,19 @@ export async function convert2DMatTo1DCompressedString(mat: number[][]): Promise
     return { height, width, compressedData };
 }
 
+export async function convert1DCompressedStringTo2DMat(compressedBinaryImage: CompressedBinaryImage): Promise<number[][]> {
+    const uncompressedData = Buffer.from(await ungzip(Buffer.from(compressedBinaryImage.compressedData))).toString();
+
+    const mat: number[][] = []
+    let index = 0;
+    for(let i = 0; i < compressedBinaryImage.height; i++) {
+        const row: number[] = [];
+        for (let j = 0; j < compressedBinaryImage.width; j++) {
+            row.push(uncompressedData.charAt(index) === '1' ?  1 : 0)
+            index++;
+        }
+        mat.push(row);
+    }
+    
+    return mat;
+}
