@@ -59,18 +59,18 @@ export async function convert2DMatToCompressedString(mat: number[][]): Promise<C
 }
 
 export async function convertCompressedStringTo2DMat(compressedBinaryImage: CompressedBinaryImage): Promise<number[][]> {
-    const uncompressedData = Buffer.from(await ungzip(Buffer.from(compressedBinaryImage.compressedData))).toString();
+    const uncompressedData = Buffer.from(await ungzip(Buffer.from(compressedBinaryImage.compressedData, 'base64'))).toString();
 
-    const mat: number[][] = []
+    const mat: number[][] = [];
     let index = 0;
-    for(let i = 0; i < compressedBinaryImage.height; i++) {
+    for (let i = 0; i < compressedBinaryImage.height; i++) {
         const row: number[] = [];
         for (let j = 0; j < compressedBinaryImage.width; j++) {
-            row.push(uncompressedData.charAt(index) === '1' ?  1 : 0)
+            row.push(uncompressedData.charAt(index) === '1' ? 1 : 0);
             index++;
         }
         mat.push(row);
     }
-    
+
     return mat;
 }
