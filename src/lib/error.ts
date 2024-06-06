@@ -3,13 +3,13 @@ import { HttpStatusCode } from 'axios';
 import { DoNotRespondError, NotFoundError } from '../types/commonTypes';
 
 export function processError(e: any, res: Response<any, Record<string, any>, number>) {
-    if (e instanceof NotFoundError) {
-        res.status(HttpStatusCode.NotFound).send(e.message);
+    if (e instanceof DoNotRespondError) {
+        console.log(e);
         return;
     }
 
-    if (e instanceof DoNotRespondError) {
-        console.log(e);
+    if (e instanceof NotFoundError) {
+        res.status(HttpStatusCode.NotFound).send(e.message);
         return;
     }
 

@@ -1,4 +1,3 @@
-
 export interface IServiceConfig {
     serviceName: string;
     shortName: string;
@@ -7,6 +6,12 @@ export interface IServiceConfig {
 export interface IServicePorts {
     http: number;
     https: number;
+}
+
+export interface CompressedBinaryImage {
+    height: number;
+    width: number;
+    compressedData: string;
 }
 
 export enum IMAGEDATATYPE {
