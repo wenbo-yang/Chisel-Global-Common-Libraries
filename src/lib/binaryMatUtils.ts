@@ -43,7 +43,7 @@ export function convert2DMatToNewLineSeparatedString(mat: number[][]): string {
     return output;
 }
 
-export async function convert2DMatTo1DCompressedString(mat: number[][]): Promise<CompressedBinaryImage> {
+export async function convert2DMatToCompressedString(mat: number[][]): Promise<CompressedBinaryImage> {
     let output = '';
     const height = mat.length;
     const width = mat[0].length;
@@ -58,7 +58,7 @@ export async function convert2DMatTo1DCompressedString(mat: number[][]): Promise
     return { height, width, compressedData };
 }
 
-export async function convert1DCompressedStringTo2DMat(compressedBinaryImage: CompressedBinaryImage): Promise<number[][]> {
+export async function convertCompressedStringTo2DMat(compressedBinaryImage: CompressedBinaryImage): Promise<number[][]> {
     const uncompressedData = Buffer.from(await ungzip(Buffer.from(compressedBinaryImage.compressedData))).toString();
 
     const mat: number[][] = []
