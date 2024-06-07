@@ -28,7 +28,7 @@ export async function convertBitmapDataToZeroOneMat(bitMapBuffer: Buffer, graySc
     return mat;
 }
 
-export function convert2DMatToNewLineSeparatedString(mat: number[][]): string {
+export function convertMatToNewLineSeparatedString(mat: number[][]): string {
     let output = '';
 
     for (let i = 0; i < mat.length; i++) {
@@ -43,7 +43,7 @@ export function convert2DMatToNewLineSeparatedString(mat: number[][]): string {
     return output;
 }
 
-export async function convert2DMatToCompressedString(mat: number[][]): Promise<CompressedBinaryImage> {
+export async function convertMatToCompressedString(mat: number[][]): Promise<CompressedBinaryImage> {
     let output = '';
     const height = mat.length;
     const width = mat[0].length;
@@ -58,7 +58,7 @@ export async function convert2DMatToCompressedString(mat: number[][]): Promise<C
     return { height, width, compressedData };
 }
 
-export async function convertCompressedStringTo2DMat(compressedBinaryImage: CompressedBinaryImage): Promise<number[][]> {
+export async function convertCompressedStringToMat(compressedBinaryImage: CompressedBinaryImage): Promise<number[][]> {
     const uncompressedData = Buffer.from(await ungzip(Buffer.from(compressedBinaryImage.compressedData, 'base64'))).toString();
 
     const mat: number[][] = [];
