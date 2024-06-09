@@ -37,3 +37,8 @@ export class DoNotRespondError extends Error {
         super(e.message);
     }
 }
+
+export interface Point {
+    r: number;
+    c: number;
+}
