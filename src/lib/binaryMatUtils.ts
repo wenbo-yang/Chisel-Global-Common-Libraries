@@ -1,6 +1,7 @@
 import { decode } from 'bmp-js';
-import { CompressedBinaryImage, Point } from '../types/commonTypes';
+import { COMPRESSIONTYPE, CompressedBinaryImage, IMAGEDATATYPE, Point } from '../types/commonTypes';
 import { gzip, ungzip } from 'node-gzip';
+import Jimp from 'jimp';
 
 export async function convertBitmapDataToZeroOneMat(bitMapBuffer: Buffer, grayScaleWhiteThreshold: number): Promise<number[][]> {
     const bmpData = decode(bitMapBuffer);
@@ -27,6 +28,54 @@ export async function convertBitmapDataToZeroOneMat(bitMapBuffer: Buffer, graySc
 
     return mat;
 }
+
+export async function convertNewLineSeparatedStringToImage(binaryMatString: string, outputCompression: COMPRESSIONTYPE): Promise<string> {
+    if (!binaryMatString.includes('\n')) {
+        throw new Error('binary mat does not have newline separator.');
+    }
+
+    const binaryMat = binaryMatString.split('\n');
+
+    const height = binaryMat.length;
+    const width = binaryMat[0].length;
+
+    const jimp = new Jimp(width, height, 'white');
+    const hexRedColor = Jimp.rgbaToInt(255, 52, 42, 255);
+
+    for (let i = 0; i < jimp.bitmap.height; i++) {
+        for (let j = 0; j < jimp.bitmap.width; j++) {
+            if (binaryMat[i].charAt(j) === '1') {
+                jimp.setPixelColor(hexRedColor, j, i);
+            }
+        }
+    }
+
+    const buffer = await jimp.getBufferAsync(Jimp.MIME_PNG);
+
+    return outputCompression === COMPRESSIONTYPE.GZIP ? Buffer.from(await gzip(buffer)).toString('base64') : buffer.toString('base64');
+}
+
+export async function convertMatToImage(mat: number[][], outputCompression: COMPRESSIONTYPE): Promise<string>{
+    const height = mat.length;
+    const width = mat[0].length;
+
+    const jimp = new Jimp(width, height, 'white');
+    const hexRedColor = Jimp.rgbaToInt(255, 52, 42, 255);
+
+    for (let i = 0; i < jimp.bitmap.height; i++) {
+        for (let j = 0; j < jimp.bitmap.width; j++) {
+            if (mat[i][j] === 1) {
+                jimp.setPixelColor(hexRedColor, j, i);
+            }
+        }
+    }
+
+    const buffer = await jimp.getBufferAsync(Jimp.MIME_PNG);
+
+    return outputCompression === COMPRESSIONTYPE.GZIP ? Buffer.from(await gzip(buffer)).toString('base64') : buffer.toString('base64');
+}
+
+
 
 export function convertMatToNewLineSeparatedString(mat: number[][]): string {
     let output = '';

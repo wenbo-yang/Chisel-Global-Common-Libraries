@@ -17,6 +17,7 @@ export interface CompressedBinaryImage {
 export enum IMAGEDATATYPE {
     BINARYSTRING = 'BINARYSTRING',
     BINARYSTRINGWITHNEWLINE = 'BINARYSTRINGWITHNEWLINE',
+    BMP = 'BMP',
     PNG = 'PNG',
     PNGIMAGEPATH = 'PNGIMAGEPATH',
 }
