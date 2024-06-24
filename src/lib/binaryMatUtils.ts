@@ -77,7 +77,7 @@ export async function convertMatToImage(mat: number[][], outputCompression: COMP
 
 
 
-export function convertMatToNewLineSeparatedString(mat: number[][]): string {
+export async function convertMatToNewLineSeparatedString(mat: number[][], outputCompression: COMPRESSIONTYPE): Promise<string> {
     let output = '';
 
     for (let i = 0; i < mat.length; i++) {
@@ -89,7 +89,7 @@ export function convertMatToNewLineSeparatedString(mat: number[][]): string {
         }
     }
 
-    return output;
+    return outputCompression === COMPRESSIONTYPE.GZIP ? (await gzip(Buffer.from(output))).toString('base64') : output;
 }
 
 export async function convertMatToCompressedString(mat: number[][]): Promise<CompressedBinaryImage> {
