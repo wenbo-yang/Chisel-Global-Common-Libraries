@@ -55,7 +55,7 @@ export async function convertNewLineSeparatedStringToImage(binaryMatString: stri
     return outputCompression === COMPRESSIONTYPE.GZIP ? Buffer.from(await gzip(buffer)).toString('base64') : buffer.toString('base64');
 }
 
-export async function convertMatToImage(mat: number[][], outputCompression: COMPRESSIONTYPE): Promise<string>{
+export async function convertMatToImage(mat: number[][], outputCompression: COMPRESSIONTYPE): Promise<string> {
     const height = mat.length;
     const width = mat[0].length;
 
@@ -74,8 +74,6 @@ export async function convertMatToImage(mat: number[][], outputCompression: COMP
 
     return outputCompression === COMPRESSIONTYPE.GZIP ? Buffer.from(await gzip(buffer)).toString('base64') : buffer.toString('base64');
 }
-
-
 
 export async function convertMatToNewLineSeparatedString(mat: number[][], outputCompression: COMPRESSIONTYPE): Promise<string> {
     let output = '';
