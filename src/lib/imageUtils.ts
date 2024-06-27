@@ -23,7 +23,7 @@ export function findBoundingRect(jimp: Jimp, grayScaleWhiteThreshold: number): B
     return { topleft: { r: top, c: left }, bottomRight: { r: bottom, c: right } };
 }
 
-export function resizeImage(inputJimp: Jimp, boundingRect: BoundingRect, padding: number; outputHeight: number, outputWidth: number): Jimp {
+export function resizeImage(inputJimp: Jimp, boundingRect: BoundingRect, padding: number, outputHeight: number, outputWidth: number): Jimp {
     let top = boundingRect.topleft.r;
     let left = boundingRect.topleft.c;
     let bottom = boundingRect.bottomRight.r;
