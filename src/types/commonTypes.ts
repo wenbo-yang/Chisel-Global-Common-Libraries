@@ -43,3 +43,8 @@ export interface Point {
     r: number;
     c: number;
 }
+
+export interface BoundingRect {
+    topleft: Point;
+    bottomRight: Point;
+}
