@@ -1,5 +1,5 @@
-import Jimp from "jimp";
-import { BoundingRect } from "../types/commonTypes";
+import Jimp from 'jimp';
+import { BoundingRect } from '../types/commonTypes';
 
 export function findBoundingRect(jimp: Jimp, grayScaleWhiteThreshold: number): BoundingRect {
     // note this is only for testing / prototyping
