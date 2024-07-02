@@ -40,12 +40,12 @@ export async function convertNewLineSeparatedStringToImage(binaryMatString: stri
     const width = binaryMat[0].length;
 
     const jimp = new Jimp(width, height, 'white');
-    const hexRedColor = Jimp.rgbaToInt(255, 52, 42, 255);
+    const hexBlackColor = Jimp.rgbaToInt(1, 1, 1, 255);
 
     for (let i = 0; i < jimp.bitmap.height; i++) {
         for (let j = 0; j < jimp.bitmap.width; j++) {
             if (binaryMat[i].charAt(j) === '1') {
-                jimp.setPixelColor(hexRedColor, j, i);
+                jimp.setPixelColor(hexBlackColor, j, i);
             }
         }
     }
@@ -60,12 +60,12 @@ export async function convertMatToImage(mat: number[][], outputCompression: COMP
     const width = mat[0].length;
 
     const jimp = new Jimp(width, height, 'white');
-    const hexRedColor = Jimp.rgbaToInt(255, 52, 42, 255);
+    const hexBlackColor = Jimp.rgbaToInt(1, 1, 1, 255);
 
     for (let i = 0; i < jimp.bitmap.height; i++) {
         for (let j = 0; j < jimp.bitmap.width; j++) {
             if (mat[i][j] === 1) {
-                jimp.setPixelColor(hexRedColor, j, i);
+                jimp.setPixelColor(hexBlackColor, j, i);
             }
         }
     }
