@@ -1,5 +1,5 @@
 import { decode } from 'bmp-js';
-import { COMPRESSIONTYPE, CompressedBinaryImage, IMAGEDATATYPE, Point } from '../types/commonTypes';
+import { COMPRESSIONTYPE, CompressedBinaryImage, Point } from '../types/commonTypes';
 import { gzip, ungzip } from 'node-gzip';
 import Jimp from 'jimp';
 
