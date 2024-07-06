@@ -1,6 +1,6 @@
 import { decode } from 'bmp-js';
 import { COMPRESSIONTYPE, CompressedBinaryImage, Point } from '../types/commonTypes';
-import { gzip, ungzip } from 'node-gzip';
+import NodeGzip from 'node-gzip';
 import Jimp from 'jimp';
 
 export async function convertBitmapDataToZeroOneMat(bitMapBuffer: Buffer, grayScaleWhiteThreshold: number): Promise<number[][]> {
@@ -52,7 +52,7 @@ export async function convertNewLineSeparatedStringToImage(binaryMatString: stri
 
     const buffer = await jimp.getBufferAsync(Jimp.MIME_PNG);
 
-    return outputCompression === COMPRESSIONTYPE.GZIP ? Buffer.from(await gzip(buffer)).toString('base64') : buffer.toString('base64');
+    return outputCompression === COMPRESSIONTYPE.GZIP ? Buffer.from(await NodeGzip.gzip(buffer)).toString('base64') : buffer.toString('base64');
 }
 
 export async function convertMatToImage(mat: number[][], outputCompression: COMPRESSIONTYPE): Promise<string> {
@@ -72,7 +72,7 @@ export async function convertMatToImage(mat: number[][], outputCompression: COMP
 
     const buffer = await jimp.getBufferAsync(Jimp.MIME_PNG);
 
-    return outputCompression === COMPRESSIONTYPE.GZIP ? Buffer.from(await gzip(buffer)).toString('base64') : buffer.toString('base64');
+    return outputCompression === COMPRESSIONTYPE.GZIP ? Buffer.from(await NodeGzip.gzip(buffer)).toString('base64') : buffer.toString('base64');
 }
 
 export async function convertMatToNewLineSeparatedString(mat: number[][], outputCompression: COMPRESSIONTYPE): Promise<string> {
@@ -87,7 +87,7 @@ export async function convertMatToNewLineSeparatedString(mat: number[][], output
         }
     }
 
-    return outputCompression === COMPRESSIONTYPE.GZIP ? (await gzip(Buffer.from(output))).toString('base64') : output;
+    return outputCompression === COMPRESSIONTYPE.GZIP ? (await NodeGzip.gzip(Buffer.from(output))).toString('base64') : output;
 }
 
 export async function convertMatToCompressedString(mat: number[][]): Promise<CompressedBinaryImage> {
@@ -101,12 +101,12 @@ export async function convertMatToCompressedString(mat: number[][]): Promise<Com
         }
     }
 
-    const compressedData = Buffer.from(await gzip(Buffer.from(output))).toString('base64');
+    const compressedData = Buffer.from(await NodeGzip.gzip(Buffer.from(output))).toString('base64');
     return { height, width, compressedData };
 }
 
 export async function convertCompressedStringToMat(compressedBinaryImage: CompressedBinaryImage): Promise<number[][]> {
-    const uncompressedData = Buffer.from(await ungzip(Buffer.from(compressedBinaryImage.compressedData, 'base64'))).toString();
+    const uncompressedData = Buffer.from(await NodeGzip.ungzip(Buffer.from(compressedBinaryImage.compressedData, 'base64'))).toString();
 
     const mat: number[][] = [];
     let index = 0;
