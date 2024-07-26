@@ -2,6 +2,7 @@ import { decode } from 'bmp-js';
 import { COMPRESSIONTYPE, CompressedBinaryImage, Point } from '../types/commonTypes';
 import NodeGzip from 'node-gzip';
 import Jimp from 'jimp';
+import { findBoundingRect, resizeImage } from './imageUtils';
 
 export async function convertBitmapDataToZeroOneMat(bitMapBuffer: Buffer, grayScaleWhiteThreshold: number): Promise<number[][]> {
     const bmpData = decode(bitMapBuffer);
@@ -55,7 +56,7 @@ export async function convertNewLineSeparatedStringToImage(binaryMatString: stri
     return outputCompression === COMPRESSIONTYPE.GZIP ? Buffer.from(await NodeGzip.gzip(buffer)).toString('base64') : buffer.toString('base64');
 }
 
-export async function convertMatToImage(mat: number[][], outputCompression: COMPRESSIONTYPE): Promise<string> {
+export async function convertMatToImage(mat: number[][], outputCompression: COMPRESSIONTYPE, fixPadding?: boolean, grayScaleWhiteThreshold?: number): Promise<string> {
     const height = mat.length;
     const width = mat[0].length;
 
@@ -68,6 +69,12 @@ export async function convertMatToImage(mat: number[][], outputCompression: COMP
                 jimp.setPixelColor(hexBlackColor, j, i);
             }
         }
+    }
+
+    let paddedJimp = jimp;
+    if (fixPadding) {
+        const boundingRect = findBoundingRect(jimp, grayScaleWhiteThreshold || 245);
+        paddedJimp = resizeImage(jimp, boundingRect, 1, mat[0].length, mat.length);
     }
 
     const buffer = await jimp.getBufferAsync(Jimp.MIME_PNG);
